@@ -26,23 +26,101 @@ Otherwise, print "NO".
 
 
 ## Algorithm
-1. 
-2. 
-3. 
-4.  
-5.   
+
+1. Input & Graph Construction:
+Read number of towers n, available channels m, and connections e.
+Build an adjacency list representing connections between towers (edges).
+2. Color Representation:
+Create a color[] array where color[i] stores the assigned channel for tower i.
+Initially, all towers are uncolored (0).
+3. Recursive Backtracking (isColorable):
+For each tower (node), try assigning channels (colors) from 1 to m.
+Before assigning, check if the channel is safe using the isSafe() function.
+4. Safety Check (isSafe):
+Ensure no adjacent (connected) tower has the same channel.
+If safe, assign the channel and recursively color the next tower.
+If no valid channel exists, backtrack by resetting the color. 
+5. Result:
+If all towers can be assigned valid channels → print "YES".
+Otherwise → print "NO" (conflict in channel assignment).
 
 ## Program:
 ```
 /*
 Program to implement Reverse a String
-Developed by: 
-Register Number:  
+Developed by: SARANYA S
+Register Number:  212223110044
+*/
+```
+```
+/*
+Program to implement Reverse a String
+Developed by: GEDIPUDI DARSHANI
+Register Number: 212223230062
+import java.util.*;
+
+public class RadioTowerChannelAssignment {
+
+    // Function to check if it's safe to assign color 'c' to node 'node'
+    public static boolean isSafe(List<List<Integer>> graph, int[] color, int node, int c) {
+        for (int neighbour : graph.get(node)) {
+            if (color[neighbour] == c) {
+                return false; // adjacent node has the same color
+            }
+        }
+        return true;
+    }
+
+    // Recursive function to assign colors to towers
+    public static boolean isColorable(List<List<Integer>> graph, int[] color, int node, int m, int n) {
+        if (node == n) return true; // all towers are colored
+
+        // Try all possible colors (1 to m)
+        for (int c = 1; c <= m; c++) {
+            if (isSafe(graph, color, node, c)) {
+                color[node] = c; // assign color
+                if (isColorable(graph, color, node + 1, m, n))
+                    return true;
+                color[node] = 0; // backtrack
+            }
+        }
+        return false; // no valid color assignment found
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // number of towers
+        int m = sc.nextInt(); // number of channels
+        int e = sc.nextInt(); // number of connections
+
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+
+        for (int i = 0; i < e; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        int[] color = new int[n];
+
+        if (isColorable(graph, color, 0, m, n))
+            System.out.println("YES");
+        else
+            System.out.println("NO");
+
+        sc.close();
+    }
+}
+ 
 */
 ```
 
 ## Output:
 
+<img width="411" height="491" alt="image" src="https://github.com/user-attachments/assets/e8ad92f0-83c0-4366-bab7-bffda5ea005f" />
 
 
 ## Result:
