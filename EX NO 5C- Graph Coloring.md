@@ -53,10 +53,7 @@ Register Number:  212223110044
 */
 ```
 ```
-/*
-Program to implement Reverse a String
-Developed by: GEDIPUDI DARSHANI
-Register Number: 212223230062
+
 import java.util.*;
 
 public class RadioTowerChannelAssignment {
@@ -115,7 +112,7 @@ public class RadioTowerChannelAssignment {
     }
 }
  
-*/
+
 ```
 
 ## Output:
