@@ -27,22 +27,112 @@ If not, print "Release cannot be scheduled".
 <img width="341" height="363" alt="image" src="https://github.com/user-attachments/assets/f0355541-4f66-49da-bcd3-171a799a7c1f" />
 
 ## Algorithm
-1. 
-2. 
-3. 
-4.  
-5.   
+
+1. Input & Graph Construction:
+Read number of tasks n and dependencies m.
+Build an adjacency list where b → a means task a depends on b.
+Maintain an indegree array to count how many prerequisites each task has
+2. Initialize the Queue:
+Add all tasks with indegree = 0 (no dependencies) to a queue — these can be executed first.
+3. Process Tasks (Topological Sort):
+While the queue is not empty:
+Remove a task from the queue and add it to the final order list.
+For each dependent task, decrease its indegree by 1.
+If any dependent task’s indegree becomes 0, add it to the queue.
+4.  Cycle Detection:
+After processing, if the total tasks in the order list ≠ n,
+→ a cycle exists (some tasks depend on each other),
+→ output: “Release cannot be scheduled.”
+5. Output:
+If no cycle is detected, print the tasks in the valid topological order,
+representing a feasible schedule of task execution.  
 
 ## Program:
 ```
 /*
 Program to implement Reverse a String
-Developed by: 
-Register Number:  
+Developed by: SARANYA S
+Register Number:  212223110044
 */
 ```
 
+```
+import java.util.*;
+
+public class prog {
+
+    public static List<Integer> findTaskOrder(int n, int[][] dependencies) {
+        // Create adjacency list and indegree array
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        int[] indegree = new int[n];
+
+        // Build graph
+        for (int[] dep : dependencies) {
+            int a = dep[0];
+            int b = dep[1];
+            adj.get(b).add(a);  // b -> a (a depends on b)
+            indegree[a]++;
+        }
+
+        // Queue for tasks with no dependencies (indegree = 0)
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0)
+                queue.add(i);
+        }
+
+        List<Integer> order = new ArrayList<>();
+
+        // Process tasks
+        while (!queue.isEmpty()) {
+            int task = queue.poll();
+            order.add(task);
+
+            for (int next : adj.get(task)) {
+                indegree[next]--;
+                if (indegree[next] == 0)
+                    queue.add(next);
+            }
+        }
+
+        // If not all tasks are processed, cycle exists
+        if (order.size() != n)
+            return null;
+
+        return order;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // number of tasks
+        int m = sc.nextInt(); // number of dependencies
+
+        int[][] dependencies = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            dependencies[i][0] = sc.nextInt(); // a
+            dependencies[i][1] = sc.nextInt(); // b
+        }
+
+        List<Integer> result = findTaskOrder(n, dependencies);
+
+        if (result == null) {
+            System.out.println("Release cannot be scheduled");
+        } else {
+            for (int task : result) {
+                System.out.print(task + " ");
+            }
+        }
+    }
+}
+
+```
+
 ## Output:
+<img width="732" height="532" alt="image" src="https://github.com/user-attachments/assets/b283fb0b-8551-4528-ac28-dbd0e677602f" />
 
 
 
